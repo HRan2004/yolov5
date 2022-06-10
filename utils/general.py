@@ -547,7 +547,12 @@ def download(url, dir='.', unzip=True, delete=True, curl=False, threads=1, retry
         # Download 1 file
         success = True
         f = dir / Path(url).name  # filename
-        if Path(url).is_file():  # exists in current path
+        is_file = False
+        try:
+            is_file = Path(url).is_file() # exists in current path
+        except:
+            pass
+        if is_file:
             Path(url).rename(f)  # move to dir
         elif not f.exists():
             LOGGER.info(f'Downloading {url} to {f}...')
